@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Polls - P0lls{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="polls-content">
+                <h1>Polls</h1>
+                {% if polls %}
+                    <ul>
+                        {% for poll in polls %}
+                            <li>
+                                <a href="{% url 'poll_detail' poll.id %}">{{ poll.title }}</a>
+                                (Published on {{ poll.pub_date }})
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No polls available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Results - P0lls{% endblock %}
+
+{% block content %}
+  <h1>{{ poll.question }}</h1>
+  <ul>
+  {% for choice in poll.choices.all %}
+    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+  {% endfor %}
+  </ul>
+  <canvas id="pieChart" width="400" height="400"></canvas>
+  <a href="{% url 'poll_list' %}">Back to Polls</a>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var data = {
+      labels: [{% for choice in poll.choices.all %}"{{ choice.choice_text }} ({{ choice.votes }} votes)", {% endfor %}],
+      datasets: [{
+        data: [{% for choice in poll.choices.all %}{{ choice.votes }}, {% endfor %}],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)',
+          'rgba(255, 159, 64, 0.5)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+    var options = {
+      responsive: false,
+      maintainAspectRatio: false
+    };
+    var pieChart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: options
+    });
+  </script>
+{% endblock %}

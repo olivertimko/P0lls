@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration - P0lls{% endblock %}
+
+{% block content %}
+    
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6" id="registration-content">
+            <h2>Register</h2>
+            <form id="registration-content" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

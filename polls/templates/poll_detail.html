@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>{{ poll.title }}</h3>
+  {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+  {% endif %}
+  <form method="post" action="{% url 'poll_vote' poll.id %}">
+    {% csrf_token %}
+    {% for choice in poll.choices.all %}
+      <div>
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+      </div>
+    {% endfor %}
+    <button type="submit">Vote</button>
+  </form>
+  {% if error_message %}
+    <br>
+    <a href="{% url 'poll_results' poll.id %}" class="btn btn-primary">See Results</a>
+  {% endif %}
+{% endblock %}

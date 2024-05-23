@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+      <h2>Polls List</h2>
+      <ul class="list-group">
+        {% for poll in polls %}
+          <li class="list-group-item"><a href="{% url 'poll_detail' poll.id %}">{{ poll.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+{% endblock %}
